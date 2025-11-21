@@ -1,50 +1,48 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from "react";
+import type { ChangeEvent, FormEvent } from "react";
+import type { FormState, UserFormSubmission } from "./formState";
 
-type FormState = {
-  jobRole: string;
-  salary: string;
-  employmentType: string;
-  gender: string;
-  age: string;
-  experience: string;
-  children: string;
-  ethnicity: string;
+const jobRoles = ["Software Engineer", "Data Analyst", "Manager"];
+const employmentTypes = ["Full-time", "Part-time"];
+const genders = ["Male", "Female", "Non-binary"];
+const ethnicities = ["White", "Black", "Mixed", "Arab", "Asian", "Other"];
+
+type UserDetailsFormProps = {
+  values: FormState;
+  onValuesChange: (nextValues: FormState) => void;
+  onSubmit: (data: UserFormSubmission) => void;
 };
 
-const jobRoles = ['Software Engineer', 'Data Analyst', 'Manager'];
-const employmentTypes = ['Full-time', 'Part-time'];
-const genders = ['Male', 'Female', 'Non-binary'];
-const ethnicities = ['White', 'Black', 'Mixed', 'Arab', 'Asian', 'Other'];
-
-const emptyState: FormState = {
-  jobRole: '',
-  salary: '',
-  employmentType: '',
-  gender: '',
-  age: '',
-  experience: '',
-  children: '',
-  ethnicity: '',
-};
-
-const UserDetailsForm = () => {
-  const [formValues, setFormValues] = useState<FormState>(emptyState);
-
+const UserDetailsForm = ({
+  values,
+  onValuesChange,
+  onSubmit,
+}: UserDetailsFormProps) => {
   const employmentTypeOptions = useMemo(() => employmentTypes, []);
   const genderOptions = useMemo(() => genders, []);
   const ethnicityOptions = useMemo(() => ethnicities, []);
 
   const handleChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = event.target;
-    setFormValues((previous) => ({ ...previous, [name]: value }));
+    onValuesChange({ ...values, [name]: value });
   };
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // Placeholder for submit handling logic.
-    console.log('Form submission', formValues);
+    const parsedSubmission: UserFormSubmission = {
+      jobRole: values.jobRole,
+      salary: Number(values.salary),
+      employmentType: values.employmentType,
+      gender: values.gender,
+      age: Number(values.age),
+      experience: Number(values.experience),
+      children: Number(values.children),
+      ethnicity: values.ethnicity,
+    };
+
+    onSubmit(parsedSubmission);
   };
 
   return (
@@ -55,7 +53,7 @@ const UserDetailsForm = () => {
           list="jobRoleOptions"
           id="jobRole"
           name="jobRole"
-          value={formValues.jobRole}
+          value={values.jobRole}
           onChange={handleChange}
           placeholder="Start typing or choose a role"
           required
@@ -73,10 +71,9 @@ const UserDetailsForm = () => {
           type="number"
           id="salary"
           name="salary"
-          value={formValues.salary}
+          value={values.salary}
           onChange={handleChange}
           min="0"
-          step="1000"
           placeholder="e.g. 65000"
           required
         />
@@ -87,7 +84,7 @@ const UserDetailsForm = () => {
         <select
           id="employmentType"
           name="employmentType"
-          value={formValues.employmentType}
+          value={values.employmentType}
           onChange={handleChange}
           required
         >
@@ -107,7 +104,7 @@ const UserDetailsForm = () => {
         <select
           id="gender"
           name="gender"
-          value={formValues.gender}
+          value={values.gender}
           onChange={handleChange}
           required
         >
@@ -128,10 +125,9 @@ const UserDetailsForm = () => {
           type="number"
           id="age"
           name="age"
-          value={formValues.age}
+          value={values.age}
           onChange={handleChange}
           min="16"
-          max="100"
           placeholder="Enter your age"
           required
         />
@@ -143,10 +139,9 @@ const UserDetailsForm = () => {
           type="number"
           id="experience"
           name="experience"
-          value={formValues.experience}
+          value={values.experience}
           onChange={handleChange}
           min="0"
-          max="50"
           placeholder="Years of experience"
           required
         />
@@ -158,10 +153,9 @@ const UserDetailsForm = () => {
           type="number"
           id="children"
           name="children"
-          value={formValues.children}
+          value={values.children}
           onChange={handleChange}
           min="0"
-          max="10"
           placeholder="Number of children"
           required
         />
@@ -172,7 +166,7 @@ const UserDetailsForm = () => {
         <select
           id="ethnicity"
           name="ethnicity"
-          value={formValues.ethnicity}
+          value={values.ethnicity}
           onChange={handleChange}
           required
         >
