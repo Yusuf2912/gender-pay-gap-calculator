@@ -6,6 +6,7 @@ const jobRoles = ["Software Engineer", "Data Analyst", "Manager"];
 const employmentTypes = ["Full-time", "Part-time"];
 const genders = ["Male", "Female", "Non-binary"];
 const ethnicities = ["White", "Black", "Mixed", "Arab", "Asian", "Other"];
+const educationLevels = ["Master's", "PhD", "Bachelor's", "High School"];
 
 type UserDetailsFormProps = {
   values: FormState;
@@ -21,6 +22,7 @@ const UserDetailsForm = ({
   const employmentTypeOptions = useMemo(() => employmentTypes, []);
   const genderOptions = useMemo(() => genders, []);
   const ethnicityOptions = useMemo(() => ethnicities, []);
+  const educationOptions = useMemo(() => educationLevels, []);
 
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -40,6 +42,7 @@ const UserDetailsForm = ({
       experience: Number(values.experience),
       children: Number(values.children),
       ethnicity: values.ethnicity,
+      education: values.education,
     };
 
     onSubmit(parsedSubmission);
@@ -174,6 +177,26 @@ const UserDetailsForm = ({
             Select one...
           </option>
           {ethnicityOptions.map((option) => (
+            <option value={option} key={option}>
+              {option}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      <div className="form-field">
+        <label htmlFor="education">Education</label>
+        <select
+          id="education"
+          name="education"
+          value={values.education}
+          onChange={handleChange}
+          required
+        >
+          <option value="" disabled>
+            Select one...
+          </option>
+          {educationOptions.map((option) => (
             <option value={option} key={option}>
               {option}
             </option>

@@ -7,6 +7,7 @@ export type FormState = {
   experience: string;
   children: string;
   ethnicity: string;
+  education: string;
 };
 
 export type UserFormSubmission = {
@@ -18,15 +19,17 @@ export type UserFormSubmission = {
   experience: number;
   children: number;
   ethnicity: string;
+  education: string;
 };
 
 export const createEmptyFormState = (): FormState => ({
-  jobRole: '',
-  salary: '',
-  employmentType: '',
-  gender: '',
-  age: '',
-  experience: '',
-  children: '',
-  ethnicity: '',
+  jobRole: "",
+  salary: "",
+  employmentType: "",
+  gender: "",
+  age: "",
+  experience: "",
+  children: "",
+  ethnicity: "",
+  education: "",
 });
