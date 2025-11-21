@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import type { UserFormSubmission } from "./formState";
+import AIFeedbackSection from "./AIFeedbackSection";
 
 const fallbackAverage = 57000;
 
@@ -162,74 +163,6 @@ const ResultsPage = ({ submission, onEdit }: ResultsPageProps) => {
     ];
   }, [submission]);
 
-  const feedbackSummary = useMemo(() => {
-    if (!comparisons.length) {
-      return "We need more information to generate personalised feedback.";
-    }
-
-    const positives = comparisons.filter(
-      (metric) => metric.percentDifference >= 5
-    );
-    const negatives = comparisons.filter(
-      (metric) => metric.percentDifference <= -5
-    );
-
-    const readableSubject = (metric: ComparisonMetric): string => {
-      const [category, detail] = metric.label.split(":");
-      const categoryText = category.trim().toLowerCase();
-      const detailText = detail ? detail.trim() : "";
-      return detailText ? `${categoryText} (${detailText})` : categoryText;
-    };
-
-    const sentences: string[] = [];
-
-    if (positives.length) {
-      const strongestPositive = positives.reduce((best, current) =>
-        current.percentDifference > best.percentDifference ? current : best
-      );
-      const diff = Math.abs(strongestPositive.percentDifference).toFixed(1);
-      const suffix =
-        positives.length > 1
-          ? " while similar gains appear in other areas"
-          : "";
-      sentences.push(
-        `You outpace the market for ${readableSubject(
-          strongestPositive
-        )} by ${diff}%${suffix}.`
-      );
-    }
-
-    if (negatives.length) {
-      const widestGap = negatives.reduce((worst, current) =>
-        current.percentDifference < worst.percentDifference ? current : worst
-      );
-      const diff = Math.abs(widestGap.percentDifference).toFixed(1);
-      const suffix =
-        negatives.length > 1
-          ? " and a few related factors follow the same pattern"
-          : "";
-      sentences.push(
-        `You're about ${diff}% below the average for ${readableSubject(
-          widestGap
-        )}${suffix}. Consider reviewing your development, role scope, or negotiation approach there.`
-      );
-    }
-
-    const neutralCount =
-      comparisons.length - positives.length - negatives.length;
-    if (neutralCount > 0) {
-      sentences.push(
-        "Your pay sits broadly in line with the market across the remaining factors."
-      );
-    }
-
-    if (!sentences.length) {
-      return "Your salary is closely aligned with the market across every factor we track.";
-    }
-
-    return sentences.join(" ");
-  }, [comparisons]);
-
   return (
     <section className="results-page" aria-live="polite">
       <header className="results-header">
@@ -281,8 +214,7 @@ const ResultsPage = ({ submission, onEdit }: ResultsPageProps) => {
       </div>
 
       <section className="results-feedback">
-        <h3>Your AI Feedback</h3>
-        <p className="feedback-summary">{feedbackSummary}</p>
+        <AIFeedbackSection submission={submission} />
       </section>
 
       <div className="results-actions">
