@@ -252,11 +252,10 @@ const ResultsPage = ({ submission, onEdit }: ResultsPageProps) => {
                   <p>{metric.description}</p>
                 </div>
                 <span
-                  className={`results-diff ${
-                    metric.percentDifference >= 0
-                      ? "results-diff-positive"
-                      : "results-diff-negative"
-                  }`}
+                  className="results-diff"
+                  style={{
+                    color: metric.percentDifference < 0 ? "#b91c1c" : "#166534",
+                  }}
                 >
                   {formatPercent(metric.percentDifference)}
                 </span>
