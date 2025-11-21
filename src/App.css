@@ -1,0 +1,64 @@
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.user-details-form {
+  display: grid;
+  gap: 1.25rem;
+  margin: 2rem auto 0;
+  padding: 2rem;
+  max-width: 480px;
+  border: 1px solid #d0d0d0;
+  border-radius: 12px;
+  background-color: #ffffff;
+  text-align: left;
+}
+
+.user-details-form .form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.user-details-form label {
+  font-weight: 600;
+  color: #000000;
+}
+
+.user-details-form input,
+.user-details-form select {
+  padding: 0.75rem;
+  border: 1px solid #000000;
+  border-radius: 8px;
+  font-size: 1rem;
+  background-color: #ffffff;
+  color: #000000;
+}
+
+.user-details-form input:focus,
+.user-details-form select:focus {
+  outline: none;
+  border-color: #000000;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.15);
+}
+
+.user-details-form button[type='submit'] {
+  padding: 0.9rem 1.25rem;
+  border: 2px solid #4f46e5;
+  border-radius: 999px;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.user-details-form button[type='submit']:hover,
+.user-details-form button[type='submit']:focus-visible {
+  background-color: #4338ca;
+  border-color: #4338ca;
+}
