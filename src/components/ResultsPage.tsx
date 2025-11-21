@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import type { UserFormSubmission } from "./formState";
 import AIFeedbackSection from "./AIFeedbackSection";
+import SalaryPredictionSection from "./SalaryPredictionSection";
 
 const fallbackAverage = 57000;
 
@@ -214,6 +215,7 @@ const ResultsPage = ({ submission, onEdit }: ResultsPageProps) => {
       </div>
 
       <section className="results-feedback">
+        <SalaryPredictionSection submission={submission} />
         <AIFeedbackSection submission={submission} />
       </section>
 
